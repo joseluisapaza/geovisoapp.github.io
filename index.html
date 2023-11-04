@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/proj4.js"></script>
+        <script src="js/proj4leaflet.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/LA_PAZ_2.js"></script>
+        <script src="data/ZONAS_DE_LA_PAZ_3.js"></script>
+        <script src="data/BN_LA_PAZ_4.js"></script>
+        <script>
+        var crs = new L.Proj.CRS('EPSG:32719', '+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs', {
+            resolutions: [2800, 1400, 700, 350, 175, 84, 42, 21, 11.2, 5.6, 2.8, 1.4, 0.7, 0.35, 0.14, 0.07],
+        });
+        var map = L.map('map', {
+            crs: crs,
+            continuousWorld: false,
+            worldCopyJump: false, 
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-17.986614739962985,-69.23309012341358],[-16.044841807076182,-65.84472093565535]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_satelital_0');
+        map.getPane('pane_satelital_0').style.zIndex = 400;
+        var layer_satelital_0 = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            pane: 'pane_satelital_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_satelital_0;
+        map.addLayer(layer_satelital_0);
+        map.createPane('pane_OpenStreetMap_1');
+        map.getPane('pane_OpenStreetMap_1').style.zIndex = 401;
+        var layer_OpenStreetMap_1 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OpenStreetMap_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OpenStreetMap_1;
+        map.addLayer(layer_OpenStreetMap_1);
+        function pop_LA_PAZ_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOMBRE'] !== null ? autolinker.link(feature.properties['NOMBRE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LA_PAZ_2_0() {
+            return {
+                pane: 'pane_LA_PAZ_2',
+                opacity: 1,
+                color: 'rgba(230,255,1,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,0.5)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_LA_PAZ_2');
+        map.getPane('pane_LA_PAZ_2').style.zIndex = 402;
+        map.getPane('pane_LA_PAZ_2').style['mix-blend-mode'] = 'normal';
+        var layer_LA_PAZ_2 = new L.geoJson(json_LA_PAZ_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LA_PAZ_2',
+            layerName: 'layer_LA_PAZ_2',
+            pane: 'pane_LA_PAZ_2',
+            onEachFeature: pop_LA_PAZ_2,
+            style: style_LA_PAZ_2_0,
+        });
+        bounds_group.addLayer(layer_LA_PAZ_2);
+        map.addLayer(layer_LA_PAZ_2);
+        function pop_ZONAS_DE_LA_PAZ_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ZONA DE RE</th>\
+                        <td>' + (feature.properties['ZONA DE RE'] !== null ? autolinker.link(feature.properties['ZONA DE RE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MACRO DIST</th>\
+                        <td>' + (feature.properties['MACRO DIST'] !== null ? autolinker.link(feature.properties['MACRO DIST'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ZONA</th>\
+                        <td>' + (feature.properties['ZONA'] !== null ? autolinker.link(feature.properties['ZONA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SUB ALCALD</th>\
+                        <td>' + (feature.properties['SUB ALCALD'] !== null ? autolinker.link(feature.properties['SUB ALCALD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CODIGO ZON</th>\
+                        <td>' + (feature.properties['CODIGO ZON'] !== null ? autolinker.link(feature.properties['CODIGO ZON'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DISTRITO</th>\
+                        <td>' + (feature.properties['DISTRITO'] !== null ? autolinker.link(feature.properties['DISTRITO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ZONAS_DE_LA_PAZ_3_0() {
+            return {
+                pane: 'pane_ZONAS_DE_LA_PAZ_3',
+                opacity: 1,
+                color: 'rgba(230,255,1,0.21)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(239,23,23,0.21)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_ZONAS_DE_LA_PAZ_3');
+        map.getPane('pane_ZONAS_DE_LA_PAZ_3').style.zIndex = 403;
+        map.getPane('pane_ZONAS_DE_LA_PAZ_3').style['mix-blend-mode'] = 'normal';
+        var layer_ZONAS_DE_LA_PAZ_3 = new L.geoJson(json_ZONAS_DE_LA_PAZ_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ZONAS_DE_LA_PAZ_3',
+            layerName: 'layer_ZONAS_DE_LA_PAZ_3',
+            pane: 'pane_ZONAS_DE_LA_PAZ_3',
+            onEachFeature: pop_ZONAS_DE_LA_PAZ_3,
+            style: style_ZONAS_DE_LA_PAZ_3_0,
+        });
+        bounds_group.addLayer(layer_ZONAS_DE_LA_PAZ_3);
+        map.addLayer(layer_ZONAS_DE_LA_PAZ_3);
+        function pop_BN_LA_PAZ_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">NOMBRE</th>\
+                        <td>' + (feature.properties['NOMBRE'] !== null ? autolinker.link(feature.properties['NOMBRE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ESTE</th>\
+                        <td>' + (feature.properties['ESTE'] !== null ? autolinker.link(feature.properties['ESTE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NORTE</th>\
+                        <td>' + (feature.properties['NORTE'] !== null ? autolinker.link(feature.properties['NORTE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LATITUD</th>\
+                        <td>' + (feature.properties['LATITUD'] !== null ? autolinker.link(feature.properties['LATITUD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LONGITUD</th>\
+                        <td>' + (feature.properties['LONGITUD'] !== null ? autolinker.link(feature.properties['LONGITUD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ZONA</th>\
+                        <td>' + (feature.properties['ZONA'] !== null ? autolinker.link(feature.properties['ZONA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ELEVACION</th>\
+                        <td>' + (feature.properties['ELEVACION'] !== null ? autolinker.link(feature.properties['ELEVACION'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_BN_LA_PAZ_4_0() {
+            return {
+                pane: 'pane_BN_LA_PAZ_4',
+                radius: 10.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,26,28,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_BN_LA_PAZ_4');
+        map.getPane('pane_BN_LA_PAZ_4').style.zIndex = 404;
+        map.getPane('pane_BN_LA_PAZ_4').style['mix-blend-mode'] = 'normal';
+        var layer_BN_LA_PAZ_4 = new L.geoJson(json_BN_LA_PAZ_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_BN_LA_PAZ_4',
+            layerName: 'layer_BN_LA_PAZ_4',
+            pane: 'pane_BN_LA_PAZ_4',
+            onEachFeature: pop_BN_LA_PAZ_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_BN_LA_PAZ_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_BN_LA_PAZ_4);
+        map.addLayer(layer_BN_LA_PAZ_4);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/BN_LA_PAZ_4.png" /> BN_LA_PAZ': layer_BN_LA_PAZ_4,'<img src="legend/ZONAS_DE_LA_PAZ_3.png" /> ZONAS_DE_LA_PAZ': layer_ZONAS_DE_LA_PAZ_3,'<img src="legend/LA_PAZ_2.png" /> LA_PAZ': layer_LA_PAZ_2,"OpenStreetMap": layer_OpenStreetMap_1,"satelital": layer_satelital_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_LA_PAZ_2.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['NOMBRE'] !== null?String('<div style="color: #000000; font-size: 20pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['NOMBRE']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_LA_PAZ_2'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        map.addControl(new L.Control.Search({
+            layer: layer_ZONAS_DE_LA_PAZ_3,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'ZONA'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        resetLabels([layer_LA_PAZ_2,layer_ZONAS_DE_LA_PAZ_3]);
+        map.on("zoomend", function(){
+            resetLabels([layer_LA_PAZ_2,layer_ZONAS_DE_LA_PAZ_3]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_LA_PAZ_2,layer_ZONAS_DE_LA_PAZ_3]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_LA_PAZ_2,layer_ZONAS_DE_LA_PAZ_3]);
+        });
+        </script>
+    </body>
+</html>
